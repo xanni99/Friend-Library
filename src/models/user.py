@@ -19,6 +19,7 @@ class User(db.Model):
     group: Mapped[List["Group"]] = relationship(back_populates="user")
     books: Mapped[List["Book"]] = relationship(back_populates="user")
     loans: Mapped[List["User"]] = relationship(back_populates="borrower")
+    reviews: Mapped[List["Review"]] = relationship(back_populates="user")
 
 
 class UserSchema(ma.Schema):

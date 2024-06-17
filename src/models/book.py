@@ -17,6 +17,7 @@ class Book(db.Model):
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
     user: Mapped[List["User"]] = relationship(back_populates='books')
     loans: Mapped[List["Loan"]] = relationship(back_populates='books')
+    reviews: Mapped[List["Review"]] = relationship(back_populates="book")
 
 
 class BookSchema(ma.Schema):

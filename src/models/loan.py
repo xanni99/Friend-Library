@@ -1,9 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import date
-from sqlalchemy import String, Boolean, ForeignKey
+from sqlalchemy import ForeignKey
 from typing import List
-from marshmallow import fields
-from marshmallow.validate import Length
 from init import db, ma
 
 
@@ -21,13 +19,6 @@ class Loan(db.Model):
     book: Mapped[List["Book"]] = relationship(back_populates="loans")
 
 
-class UserSchema(ma.Schema):
-    email = fields.Email(required=True)
-    password = fields.String(
-        validate=Length(min=8, error="Password must be at least 8 characters long"),
-        required=True,
-    )
-    name = fields.String(required=True)
-
+class LoanSchema(ma.Schema):
     class Meta:
-        fields = ("id", "email", "name", "password", "is_admin", "group")
+        fields = ("id", "borrow_date", "return_date", "borrower_id", "book_id")
