@@ -11,7 +11,7 @@ class Book(db.Model):
     title: Mapped[str] = mapped_column(String(200))
     author: Mapped[str] = mapped_column(String(200))
     genre: Mapped[str] = mapped_column(String(200))
-    description: Mapped[str] = mapped_column(String(500))
+    description: Mapped[str] = mapped_column(String(1000))
     is_available: Mapped[bool] = mapped_column(Boolean(), server_default="true")
 
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
