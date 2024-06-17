@@ -1,6 +1,6 @@
-from init import db, ma
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
+from init import db, ma
 
 
 class Group(db.Model):

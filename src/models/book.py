@@ -1,9 +1,8 @@
-from init import db, ma
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Boolean, ForeignKey
 from typing import List
 from marshmallow import fields
-from marshmallow.validate import Length
+from init import db, ma
 
 class Book(db.Model):
     __tablename__ = "books"
@@ -17,6 +16,7 @@ class Book(db.Model):
 
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
     user: Mapped[List["User"]] = relationship(back_populates='books')
+    loans: Mapped[List["Loan"]] = relationship(back_populates='books')
 
 
 class BookSchema(ma.Schema):
