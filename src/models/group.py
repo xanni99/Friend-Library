@@ -9,7 +9,7 @@ class Group(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     code: Mapped[int] = mapped_column(unique=True, nullable=False)
 
-    users: Mapped[List["User"]] = relationship(back_populates='group')
+    user: Mapped[List["User"]] = relationship(back_populates='group')
 
 
 class GroupSchema(ma.Schema):

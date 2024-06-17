@@ -1,6 +1,7 @@
 from init import db, ma
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import String, Boolean
+from sqlalchemy import String, Boolean, ForeignKey
+from typing import List
 from marshmallow import fields
 from marshmallow.validate import Length
 
@@ -13,7 +14,8 @@ class User(db.Model):
     password: Mapped[str] = mapped_column(String(200))
     is_admin: Mapped[bool] = mapped_column(Boolean(), server_default="false")
 
-    groups: Mapped[List["Group"]] = relationship(back_populates='user')
+    user_id: Mapped[int] = mapped_column(ForeignKey('groups.id'))
+    group: Mapped[List["Group"]] = relationship(back_populates='user')
 
 
 class UserSchema(ma.Schema):
