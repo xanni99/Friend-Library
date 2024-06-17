@@ -14,8 +14,9 @@ class User(db.Model):
     password: Mapped[str] = mapped_column(String(200))
     is_admin: Mapped[bool] = mapped_column(Boolean(), server_default="false")
 
-    user_id: Mapped[int] = mapped_column(ForeignKey('groups.id'))
+    group_id: Mapped[int] = mapped_column(ForeignKey('groups.id'))
     group: Mapped[List["Group"]] = relationship(back_populates='user')
+    books: Mapped[List["Book"]] = relationship(back_populates='user')
 
 
 class UserSchema(ma.Schema):
