@@ -14,4 +14,4 @@ class Group(db.Model):
 
 class GroupSchema(ma.Schema):
     class Meta:
-        fields = ("id", "code")
+        fields = ["code"]
