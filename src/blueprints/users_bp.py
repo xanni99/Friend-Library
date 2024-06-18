@@ -46,6 +46,7 @@ def login():
 
 # Get all users (R)
 @users_bp.route("/")
+# @jwt_required()
 def get_all_users():
     # Get all users from the database
     stmt = db.select(User)
