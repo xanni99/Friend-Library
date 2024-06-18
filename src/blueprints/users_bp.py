@@ -13,7 +13,7 @@ users_bp = Blueprint('users', __name__, url_prefix="/users")
 def create_user():
     # Get User data
     user_data= UserSchema(only=["name", "email", "password", "group_id", "is_admin"]).load(request.json, unknown="exclude")
-    # Check if user already exists in database 
+    # Check if user already exists in database by checking unique email
     if User.query.filter_by(email=user_data["email"]).first() is not None:
         return {"error": "User with this email already exists"}, 400
     # Check group id matches an existing group in the database
@@ -26,3 +26,15 @@ def create_user():
     db.session.add(user)
     db.session.commit()
     return UserSchema().dump(user_data), 201
+
+
+@users_bp.route("/login", methods=["POST"])
+def login():
+    params = UserSchema(only=["email", "password"]).load(request.json, unknown="exclude")
+    stmt = db.select(User).where(User.email == params["email"])
+    user = db.session.scalar(stmt)
+    if user and bcrypt.check_password_hash(user.password, params["password"]):
+        token = create_access_token(identity=user.id, expires_delta=timedelta(hours=2))
+        return {"token": token}, 200
+    else:
+        return {"error": "Invalid email or password"}, 401

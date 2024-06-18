@@ -33,14 +33,14 @@ def db_create():
     
     users = [
         User(
-            email="admin@test.com",
+            email="gru@test.com",
             name = "Gru",
             password=bcrypt.generate_password_hash("stealthemoon").decode("utf8"),
             is_admin=True,
             group=groups[0],
         ),
         User(
-            email="user2@test.com",
+            email="kevin@test.com",
             name="Kevin",
             password=bcrypt.generate_password_hash("BANANA").decode("utf8"),
             group=groups[1]
