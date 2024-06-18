@@ -4,7 +4,6 @@ from flask import request
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from init import db, bcrypt
 from models.user import User, UserSchema
-from auth import authorize_owner
 
 
 users_bp = Blueprint('users', __name__, url_prefix="/users")
@@ -69,3 +68,18 @@ def update_user(id):
     db.session.commit()
     return UserSchema(only=["name", "email"]).dump(user), 200
 
+
+@users_bp.route("/delete/<int:id>", methods=["DELETE"])
+@jwt_required()
+def delete_user(id):
+    # Check if the user trying to delete is the owner of the account, or an admin
+    current_user_id = get_jwt_identity()
+    current_user = db.get_or_404(User, current_user_id)
+    if current_user_id!= id and not current_user.is_admin:
+        return {"error": "You must be the owner of the account, or an admin to delete details"}, 403
+    # Now authorised, get corresponding user profile using given ID
+    user = db.get_or_404(User, id)
+    # Delete the user from the database
+    db.session.delete(user)
+    db.session.commit()
+    return {"message": "User deleted"}, 200

@@ -16,9 +16,9 @@ class Book(db.Model):
 
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
 
-    user: Mapped["User"] = relationship(back_populates='books')
-    loans: Mapped["Loan"] = relationship(back_populates='book')
-    reviews: Mapped["Review"] = relationship(back_populates="book")
+    user: Mapped["User"] = relationship(back_populates='books', cascade="all")
+    loans: Mapped["Loan"] = relationship(back_populates='book', cascade="all")
+    reviews: Mapped["Review"] = relationship(back_populates="book", cascade="all")
 
 
 class BookSchema(ma.Schema):
