@@ -1,6 +1,5 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Boolean, ForeignKey
-from typing import List
 from marshmallow import fields
 from init import db, ma
 
@@ -26,6 +25,7 @@ class BookSchema(ma.Schema):
     author = fields.String(required=True)
     genre = fields.String(required=True)
     description = fields.String(required=True)
+    is_available = fields.Boolean(missing=True)
 
     user = fields.Nested("UserSchema", only=["name"])
     reviews = fields.Nested("ReviewSchema", only=["rating", "review"])
