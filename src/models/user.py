@@ -29,7 +29,8 @@ class UserSchema(ma.Schema):
         required=True,
     )
     name = fields.String(required=True)
-    group = fields.Nested("GroupSchema")
+    # group = fields.Nested("GroupSchema")
+    is_admin = fields.Boolean(required=False)
 
     class Meta:
-        fields = ("id", "email", "name", "password", "is_admin", "group")
+        fields = ("id", "email", "name", "password", "is_admin", "group_id")
