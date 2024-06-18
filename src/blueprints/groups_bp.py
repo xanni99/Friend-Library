@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, request
 import random
 from init import db
 from models.group import Group, GroupSchema
@@ -7,13 +7,19 @@ from models.group import Group, GroupSchema
 groups_bp = Blueprint('groups', __name__, url_prefix="/groups")
 
 
-@groups_bp.route("/")
+@groups_bp.route("/", methods=["POST"])
 def create_group():
+    # Get group name 
+    group_name = GroupSchema(only = ["name"], unknown="exclude").load(request.json)
+    # Create a new group with a random id
     while True:
-        new_code = random.randint(1000,999999)
-        if Group.query.filter_by(code=new_code).first() is None:
+        new_id = random.randint(1000,999999)
+        if Group.query.filter_by(id=new_id).first() is None:
             break
-    group = Group(code=new_code)
+    group = Group(
+        id=new_id,
+        name=group_name["name"]
+        )
     db.session.add(group)
     db.session.commit()
     return GroupSchema().dump(group), 201

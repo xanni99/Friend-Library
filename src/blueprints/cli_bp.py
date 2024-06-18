@@ -5,7 +5,7 @@ from models.user import User
 from models.book import Book
 from models.loan import Loan
 from models.review import Review
-from init import app, db, bcrypt
+from init import db, bcrypt
 
 
 db_commands = Blueprint('db', __name__)
@@ -18,8 +18,14 @@ def db_create():
     print("Created tables")
 
     groups = [
-        Group(code=1234),
-        Group(code=5678),
+        Group(
+            id=1234,
+            name="Villans"
+            ),
+        Group(
+            id=5678,
+            name="Gru's Minions"
+            ),
     ]
 
     db.session.add_all(groups)
@@ -37,7 +43,7 @@ def db_create():
             email="user2@test.com",
             name="Kevin",
             password=bcrypt.generate_password_hash("BANANA").decode("utf8"),
-            group=groups[0]
+            group=groups[1]
         ),
     ]
 
