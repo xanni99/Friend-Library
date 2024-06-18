@@ -9,6 +9,7 @@ from models.user import User, UserSchema
 users_bp = Blueprint('users', __name__, url_prefix="/users")
 
 
+# Create a user (C)
 @users_bp.route("/", methods=["POST"])
 def create_user():
     # Get User data
@@ -28,6 +29,7 @@ def create_user():
     return UserSchema().dump(user_data), 201
 
 
+# User Login and token generation (C)
 @users_bp.route("/login", methods=["POST"])
 def login():
     params = UserSchema(only=["email", "password"]).load(request.json, unknown="exclude")
@@ -42,6 +44,7 @@ def login():
         return {"error": "Invalid email or password"}, 401
     
 
+# Get all users (R)
 @users_bp.route("/")
 def get_all_users():
     # Get all users from the database
@@ -51,6 +54,7 @@ def get_all_users():
     return UserSchema(only=["name", "books"],many=True).dump(users), 200
 
 
+# Update User (U)
 @users_bp.route("/update/<int:id>", methods=["PUT", "PATCH"])
 @jwt_required()
 def update_user(id):
@@ -69,6 +73,7 @@ def update_user(id):
     return UserSchema(only=["name", "email"]).dump(user), 200
 
 
+# Delete User (D)
 @users_bp.route("/delete/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_user(id):

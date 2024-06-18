@@ -28,8 +28,7 @@ class BookSchema(ma.Schema):
     description = fields.String(required=True)
 
     user = fields.Nested("UserSchema", only=["name"])
+    reviews = fields.Nested("ReviewSchema", only=["rating", "review"])
 
     class Meta:
-        user = fields.Nested("UserSchema")
-
-        fields = ("id", "title", "author", "genre", "description", "is_available", "user")
+        fields = ("id", "title", "author", "genre", "description", "is_available", "user", "reviews")

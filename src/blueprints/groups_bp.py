@@ -7,6 +7,7 @@ from models.group import Group, GroupSchema
 groups_bp = Blueprint('groups', __name__, url_prefix="/groups")
 
 
+# Create a group (C)
 @groups_bp.route("/", methods=["POST"])
 def create_group():
     # Get group name 
