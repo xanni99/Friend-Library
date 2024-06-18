@@ -18,7 +18,7 @@ class User(db.Model):
     group_id: Mapped[int] = mapped_column(ForeignKey("groups.id"))
     group: Mapped[List["Group"]] = relationship(back_populates="user")
     books: Mapped[List["Book"]] = relationship(back_populates="user")
-    loans: Mapped[List["User"]] = relationship(back_populates="borrower")
+    loans: Mapped[List["Loan"]] = relationship(back_populates="user")
     reviews: Mapped[List["Review"]] = relationship(back_populates="user")
 
 
@@ -29,6 +29,7 @@ class UserSchema(ma.Schema):
         required=True,
     )
     name = fields.String(required=True)
+    group = fields.Nested("GroupSchema")
 
     class Meta:
         fields = ("id", "email", "name", "password", "is_admin", "group")

@@ -1,6 +1,8 @@
-from flask import Flask
+from init import app
+from blueprints.cli_bp import db_commands
 
-app = Flask(__name__)
+
+app.register_blueprint(db_commands)
 
 @app.route('/')
 def hello_world():

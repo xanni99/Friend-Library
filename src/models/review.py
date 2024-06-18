@@ -17,13 +17,15 @@ class Review(db.Model):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     book_id: Mapped[int] = mapped_column(ForeignKey("books.id"))
 
-    user: Mapped[List["User"]] = relationship(back_populates="reviews")
-    book: Mapped[List["Book"]] = relationship(back_populates="reviews")
+    user: Mapped["User"] = relationship(back_populates="reviews")
+    book: Mapped["Book"] = relationship(back_populates="reviews")
 
 
 class ReviewSchema(ma.Schema):
     rating = fields.Integer(required=True, validate=validate.Range(min=1, max=5, error="Rating must be between 1 and 5"))
     review = fields.String(required=True)
+    user = fields.Nested("UserSchema")
+    book = fields.Nested("BookSchema")
 
     class Meta:
-        fields = ("id", "rating", "review", "date", "user_id", "book_id")
+        fields = ("id", "rating", "review", "date", "user", "book")

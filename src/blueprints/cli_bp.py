@@ -68,16 +68,16 @@ def db_create():
 
     reviews = [
         Review(
-            user_id=users[1],
-            book_id = books[1],
-            rating= "5",
+            user_id=users[1].id,
+            book_id = books[1].id,
+            rating= 5,
             review= "I loved this book! Really great book to read if you are uncertain of where you are heading in life or are questioning the choices you have made so far. Great read!",
             date=date.today(),
         ),
         Review(
-            user_id=users[0],
-            book_id = books[0],
-            rating= "5",
+            user_id=users[0].id,
+            book_id = books[0].id,
+            rating= 5,
             review= "An absolute classic! Loved re-reading this and re-immersing myself in the land of Hogwarts!",
             date=date.today(),
         ),
@@ -89,15 +89,15 @@ def db_create():
     loans = [
         Loan(
             borrow_date=date.today(),
-            return_date="",
-            borrower_id=users[0],
-            book_id=books[0],
+            return_date=date.today(),
+            user_id=users[0].id,
+            book_id=books[0].id,
         ),
         Loan(
             borrow_date=date.today(),
             return_date=date.today(),
-            borrower_id=users[0],
-            book_id=books[1],
+            user_id=users[0].id,
+            book_id=books[1].id,
         )
     ]
 

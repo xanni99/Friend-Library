@@ -15,9 +15,10 @@ class Book(db.Model):
     is_available: Mapped[bool] = mapped_column(Boolean(), server_default="true")
 
     user_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
-    user: Mapped[List["User"]] = relationship(back_populates='books')
-    loans: Mapped[List["Loan"]] = relationship(back_populates='books')
-    reviews: Mapped[List["Review"]] = relationship(back_populates="book")
+
+    user: Mapped["User"] = relationship(back_populates='books')
+    loans: Mapped["Loan"] = relationship(back_populates='book')
+    reviews: Mapped["Review"] = relationship(back_populates="book")
 
 
 class BookSchema(ma.Schema):
@@ -26,7 +27,9 @@ class BookSchema(ma.Schema):
     genre = fields.String(required=True)
     description = fields.String(required=True)
 
-    user = fields.Nested("UserSchema", only="name")
+    user = fields.Nested("UserSchema", only=["name"])
 
     class Meta:
+        user = fields.Nested("UserSchema")
+
         fields = ("id", "title", "author", "genre", "description", "is_available", "user")
