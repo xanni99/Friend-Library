@@ -42,7 +42,7 @@ def db_create():
         User(
             email="kevin@test.com",
             name="Kevin",
-            password=bcrypt.generate_password_hash("BANANA").decode("utf8"),
+            password=bcrypt.generate_password_hash("BANANAS!").decode("utf8"),
             group=groups[1]
         ),
     ]

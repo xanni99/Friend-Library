@@ -1,9 +1,10 @@
 from datetime import timedelta
 from flask import Blueprint
 from flask import request
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from init import db, bcrypt
 from models.user import User, UserSchema
+from auth import authorize_owner
 
 
 users_bp = Blueprint('users', __name__, url_prefix="/users")
@@ -21,7 +22,7 @@ def create_user():
         return {"error": "Group does not exist"}, 400
     # Hash password for storing in db
     user_data["password"] = bcrypt.generate_password_hash(user_data["password"]).decode("utf-8")
-     # Create user
+     # Create user and add to the database
     user = User(**user_data)
     db.session.add(user)
     db.session.commit()
@@ -31,10 +32,40 @@ def create_user():
 @users_bp.route("/login", methods=["POST"])
 def login():
     params = UserSchema(only=["email", "password"]).load(request.json, unknown="exclude")
+    # Check given email exists in the database
     stmt = db.select(User).where(User.email == params["email"])
     user = db.session.scalar(stmt)
+    # If the email does exist, check the given password matches the hashed password in the database
     if user and bcrypt.check_password_hash(user.password, params["password"]):
         token = create_access_token(identity=user.id, expires_delta=timedelta(hours=2))
         return {"token": token}, 200
     else:
         return {"error": "Invalid email or password"}, 401
+    
+
+@users_bp.route("/")
+def get_all_users():
+    # Get all users from the database
+    stmt = db.select(User)
+    users = db.session.scalars(stmt).all()
+    # Return all users in the database only showing their name and books in the result
+    return UserSchema(only=["name", "books"],many=True).dump(users), 200
+
+
+@users_bp.route("/update/<int:id>", methods=["PUT", "PATCH"])
+@jwt_required()
+def update_user(id):
+    current_user_id = get_jwt_identity()
+    if current_user_id!= id:
+        return {"error": "You must be the owner of the account to update details"}, 403
+    user = db.get_or_404(User, id)
+    user_info = UserSchema(only=["name", "email", "password"]).load(request.json, unknown="exclude")
+    user.name = user_info.get("name", user.name)
+    user.email = user_info.get("email", user.email)
+    new_password = user_info.get("password")
+    if new_password:
+        user.password = bcrypt.generate_password_hash(new_password).decode("utf-8")
+
+    db.session.commit()
+    return UserSchema(only=["name", "email"]).dump(user), 200
+
