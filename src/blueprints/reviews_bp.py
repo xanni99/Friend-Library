@@ -60,6 +60,37 @@ def book_reviews(book_id):
 
 
 # Update a Book Review (U)
-
+@reviews_bp.route("/update/<int:id>", methods=["PUT","PATCH"])
+@jwt_required()
+def update_review(id):
+    # Get current user ID and the review attempting to be updated from the database, error if review does not exist
+    current_user_id = get_jwt_identity()
+    review = db.get_or_404(Review, id)
+    # Check the current user is the creator of the review attempting to be updated
+    if review.user_id != current_user_id:
+        return {"error": "You must be the creator of the review to update"}, 403
+    # Get updated review information from the request
+    review_info = ReviewSchema(only = ["rating", "review"], unknown = "exclude").load(request.json)
+    review.rating = review_info.get("rating", review.rating)
+    review.review = review_info.get("review", review.review)
+    # Save new changes to the database
+    db.session.commit()
+    # Return book with updated information
+    return ReviewSchema().dump(review), 200
 
 # Delete a Book Review (D)
+@reviews_bp.route("/delete/<int:id>", methods=["DELETE"])
+@jwt_required()
+def delete_review(id):
+# Get current user ID and the review attempting to be deleted from the database, error if review does not exist
+    current_user_id = get_jwt_identity()
+    current_user = db.get_or_404(User, current_user_id)
+    review = db.get_or_404(Review, id)
+    # Check the current user is the owner of the review attempting to be deleted, or an admin
+    if current_user_id != review.user_id and not current_user.is_admin:
+        return {"error": "You must be the creator of the review, or an admin to delete it"}, 403
+    # Delete the review from the database
+    db.session.delete(review)
+    db.session.commit()
+    # Return message that review has been deleted
+    return {"message": "Review deleted"}, 200
