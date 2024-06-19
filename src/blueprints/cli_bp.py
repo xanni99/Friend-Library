@@ -99,6 +99,7 @@ def db_create():
             return_date=date.today() + timedelta(days = 7),
             user_id=users[0].id,
             book_id=books[0].id,
+            returned_status=True,
         ),
         Loan(
             borrow_date=date.today(),
@@ -106,6 +107,7 @@ def db_create():
             return_date=date.today() + timedelta(days = 12),
             user_id=users[0].id,
             book_id=books[1].id,
+            returned_status=False,
         )
     ]
 

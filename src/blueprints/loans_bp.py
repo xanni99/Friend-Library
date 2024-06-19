@@ -37,3 +37,8 @@ def new_loan(book_id):
     db.session.add(loan)
     db.session.commit()
     return LoanSchema().dump(loan), 201
+
+
+# Return a Book (U)
+# @loans_bp.route("/<int:loan_id>", methods=["PUT"])
+# @jwt_required()
