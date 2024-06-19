@@ -96,7 +96,8 @@ def db_create():
         Loan(
             borrow_date=date.today(),
             borrow_length = 7,
-            return_date=date.today() + timedelta(days = 7),
+            due_date=date.today() + timedelta(days = 7),
+            returned_date=date.today(),
             user_id=users[0].id,
             book_id=books[0].id,
             returned_status=True,
@@ -104,10 +105,11 @@ def db_create():
         Loan(
             borrow_date=date.today(),
             borrow_length = 12,
-            return_date=date.today() + timedelta(days = 12),
+            due_date=date.today() + timedelta(days = 12),
+            returned_date=date.today(),
             user_id=users[0].id,
             book_id=books[1].id,
-            returned_status=False,
+            returned_status=True,
         )
     ]
 
