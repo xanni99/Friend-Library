@@ -34,12 +34,29 @@ def add_review(book_id):
     return ReviewSchema(only=["rating", "review"]).dump(review), 201
 
 
-
-
 # View All Book Reviews (R)
+@reviews_bp.route("/")
+@jwt_required()
+def all_reviews():
+    # Get all reviews from the database
+    stmt = db.select(Review)
+    # Return all reviews from the database
+    reviews = db.session.scalars(stmt).all()
+    return ReviewSchema(many=True, only=["rating", "review", "date", "user", "book"]).dump(reviews)
 
 
-# View A Book Review (R)
+# View Reviews for a Book (R)
+@reviews_bp.route("/<int:book_id>")
+@jwt_required()
+def book_reviews(book_id):
+    book = db.get_or_404(Book, book_id)
+    if not book:
+        return {"error": "Book does not exist"}, 404
+    # Get all reviews from the database where book = id of book requested
+    stmt = db.select(Review).where(Review.book_id == book_id)
+    # Return all reviews from the database with this book id
+    reviews = db.session.scalars(stmt).all()
+    return ReviewSchema(many=True, only=["rating", "review", "date", "user", "book"]).dump(reviews)
 
 
 # Update a Book Review (U)

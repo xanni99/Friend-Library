@@ -2,8 +2,9 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import date
 from sqlalchemy import String, ForeignKey
 from marshmallow import fields, validate
-from typing import List
 from init import db, ma
+from models.book import BookSchema
+from models.user import UserSchema
 
 
 class Review(db.Model):
@@ -24,8 +25,8 @@ class Review(db.Model):
 class ReviewSchema(ma.Schema):
     rating = fields.Integer(required=True, validate=validate.Range(min=1, max=5, error="Rating must be between 1 and 5"))
     review = fields.String(required=True)
-    user = fields.Nested("UserSchema")
-    book = fields.Nested("BookSchema")
+    user = fields.Nested(UserSchema, only=["name"])
+    book = fields.Nested(BookSchema, only=["title","author"])
 
     class Meta:
         fields = ("id", "rating", "review", "date", "user", "book")
