@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 from flask import Blueprint
 from models.group import Group
 from models.user import User
@@ -95,13 +95,15 @@ def db_create():
     loans = [
         Loan(
             borrow_date=date.today(),
-            return_date=date.today(),
+            borrow_length = 7,
+            return_date=date.today() + timedelta(days = 7),
             user_id=users[0].id,
             book_id=books[0].id,
         ),
         Loan(
             borrow_date=date.today(),
-            return_date=date.today(),
+            borrow_length = 12,
+            return_date=date.today() + timedelta(days = 12),
             user_id=users[0].id,
             book_id=books[1].id,
         )
