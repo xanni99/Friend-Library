@@ -30,3 +30,13 @@ class ReviewSchema(ma.Schema):
 
     class Meta:
         fields = ("id", "rating", "review", "date", "user", "book")
+
+
+class UpdateReviewSchema(ma.Schema):
+    rating = fields.Integer(validate=validate.Range(min=1, max=5, error="Rating must be between 1 and 5"))
+    review = fields.String()
+    user = fields.Nested(UserSchema, only=["name"])
+    book = fields.Nested(BookSchema, only=["title","author"])
+
+    class Meta:
+        fields = ("id", "rating", "review", "date", "user", "book")

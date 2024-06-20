@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from datetime import date
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
-from models.review import Review, ReviewSchema
+from models.review import Review, ReviewSchema, UpdateReviewSchema
 from models.user import User
 from models.book import Book
 
@@ -70,13 +70,13 @@ def update_review(id):
     if review.user_id != current_user_id:
         return {"error": "You must be the creator of the review to update"}, 403
     # Get updated review information from the request
-    review_info = ReviewSchema(only = ["rating", "review"], unknown = "exclude").load(request.json)
+    review_info = UpdateReviewSchema(only = ["rating", "review"], unknown = "exclude").load(request.json)
     review.rating = review_info.get("rating", review.rating)
     review.review = review_info.get("review", review.review)
     # Save new changes to the database
     db.session.commit()
     # Return book with updated information
-    return ReviewSchema().dump(review), 200
+    return UpdateReviewSchema(exclude=["id"]).dump(review), 200
 
 # Delete a Book Review (D)
 @reviews_bp.route("/delete/<int:id>", methods=["DELETE"])

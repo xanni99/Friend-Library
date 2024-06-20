@@ -30,6 +30,5 @@ class LoanSchema(ma.Schema):
     borrow_length = fields.Integer(required=True, validate=validate.Range(min=1, max=21, error="Borrow length must be between 1 and 21 days"))
     returned_date = fields.Date(allow_none=True)
 
-
     class Meta:
         fields = ("id", "borrow_length", "borrow_date", "due_date", "returned_date", "user", "book", "returned_status")
