@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
-from models.book import Book, BookSchema
+from models.book import Book, BookSchema, UpdateBookSchema
 from models.user import User
 
 
@@ -73,7 +73,7 @@ def update_book(id):
     if book.user_id != current_user_id:
         return {"error": "You must be the owner of the book to update details"}, 403
     # Get updated book information from the rquest
-    book_info = BookSchema(only=["title", "author", "description", "genre","is_available"], unknown="exclude").load(request.json)
+    book_info = UpdateBookSchema(only=["title", "author", "description", "genre","is_available"], unknown="exclude").load(request.json)
     book.title = book_info.get("title", book.title)
     book.author = book_info.get("author", book.author)
     book.genre = book_info.get("genre", book.genre)
@@ -82,7 +82,7 @@ def update_book(id):
     # Save new changes to the database
     db.session.commit()
     # Return book with updated information
-    return BookSchema().dump(book), 200
+    return UpdateBookSchema().dump(book), 200
 
 
 # Delete a book (D)
