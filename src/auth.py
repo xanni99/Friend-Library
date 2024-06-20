@@ -18,12 +18,11 @@ def admin_only(fn):
             return fn()
         else:
             return {"error": "You must be an admin to access this resource"}, 403
-
     return inner
 
 
-# Ensure that the JWT user is owner of profile
-def authorize_owner(user):
-    user_id = get_jwt_identity()
-    if user_id != user.user_id:
-        abort(make_response(jsonify(error="You must be the owner of the account to update details"),403))
+# # Ensure that the JWT user is owner of profile
+# def authorize_owner(user):
+#     user_id = get_jwt_identity()
+#     if user_id != user.user_id:
+#         abort(make_response(jsonify(error="You must be the owner of the account to update details"),403))

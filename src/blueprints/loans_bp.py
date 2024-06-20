@@ -2,6 +2,7 @@ from flask import Blueprint, request
 from datetime import date, timedelta
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
+from auth import admin_only
 from models.loan import Loan, LoanSchema
 from models.book import Book, BookSchema
 from models.user import User
@@ -45,7 +46,7 @@ def new_loan(book_id):
 def return_book(loan_id):
     # Get current user ID to confirm it is their loan
     current_user_id = get_jwt_identity()
-    # Get loan attempting to be completed (book returned) from the database, or throw an error if record does not exist
+    # Get the instance of loan attempting to be completed (book returned) from the database, or throw an error if record does not exist
     loan = db.get_or_404(Loan, loan_id)
     # Check the current user is the owner of the loan attempting to be completed
     if loan.user_id!= current_user_id:
@@ -56,8 +57,33 @@ def return_book(loan_id):
     book.is_available = True
     # Update returned status of loan
     loan.returned_status = True
-    # Update return date of loan
+    # Update returned date of loan
     loan.returned_date = date.today()
     # Commit changes to the database
     db.session.commit()
     return LoanSchema().dump(loan), 200
+
+
+# View Own User Loans (R)
+@loans_bp.route("/")
+@jwt_required()
+def user_loans():
+    # Get current user ID
+    current_user_id = get_jwt_identity()
+    # Get all loans made by current user from the database
+    stmt = db.select(Loan).where(Loan.user_id == current_user_id)
+    # Return all loans from the database
+    loans = db.session.scalars(stmt).all()
+    return LoanSchema(many=True, exclude= ["id"]).dump(loans)
+
+
+# View entire Loan history (R)
+@loans_bp.route("/all")
+@admin_only
+def all_loans():
+    # Get all loans from the database
+    stmt = db.select(Loan)
+    # Return all loans from the database
+    loans = db.session.scalars(stmt).all()
+    return LoanSchema(many=True, exclude= ["id"]).dump(loans)
+
