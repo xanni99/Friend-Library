@@ -4,7 +4,6 @@ from flask_jwt_extended import (
 )
 from init import db
 from models.user import User
-from flask import abort, jsonify, make_response
 
 
 # Route decorator - ensure JWT user is an admin

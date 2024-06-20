@@ -4,8 +4,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from init import db
 from auth import admin_only
 from models.loan import Loan, LoanSchema
-from models.book import Book, BookSchema
-from models.user import User
+from models.book import Book
 
 
 loans_bp = Blueprint("loans", __name__, url_prefix='/loans')

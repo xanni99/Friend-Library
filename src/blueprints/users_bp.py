@@ -3,7 +3,7 @@ from flask import Blueprint
 from flask import request
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from init import db, bcrypt
-from models.user import User, UserSchema
+from models.user import User, UserSchema, UserUpdateSchema
 
 
 users_bp = Blueprint('users', __name__, url_prefix="/users")
@@ -63,7 +63,7 @@ def update_user(id):
     if current_user_id!= id:
         return {"error": "You must be the owner of the account to update details"}, 403
     user = db.get_or_404(User, id)
-    user_info = UserSchema(only=["name", "email", "password"]).load(request.json, unknown="exclude")
+    user_info = UserUpdateSchema(only=["name", "email", "password"]).load(request.json, unknown="exclude")
     user.name = user_info.get("name", user.name)
     user.email = user_info.get("email", user.email)
     new_password = user_info.get("password")
@@ -71,7 +71,7 @@ def update_user(id):
         user.password = bcrypt.generate_password_hash(new_password).decode("utf-8")
 
     db.session.commit()
-    return UserSchema(only=["name", "email"]).dump(user), 200
+    return {"message": "Details Successfully Updated"}, 200
 
 
 # Delete User (D)

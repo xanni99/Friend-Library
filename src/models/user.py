@@ -35,3 +35,16 @@ class UserSchema(ma.Schema):
 
     class Meta:
         fields = ("id", "email", "name", "password", "is_admin", "group", "books")
+
+
+class UserUpdateSchema(ma.Schema):
+    email = fields.Email()
+    password = fields.String(
+        validate=Length(min=8, error="Password must be at least 8 characters long"))
+    name = fields.String()
+    group = fields.Nested("GroupSchema")
+    books = fields.Nested("BookSchema", only=["title"])
+    is_admin = fields.Boolean(required=False)
+
+    class Meta:
+        fields = ("id", "email", "name", "password", "is_admin", "group", "books")
