@@ -1,4 +1,5 @@
 from init import app
+from marshmallow.exceptions import ValidationError
 from blueprints.cli_bp import db_commands
 from blueprints.groups_bp import groups_bp
 from blueprints.users_bp import users_bp
@@ -18,3 +19,8 @@ app.register_blueprint(loans_bp)
 @app.route("/")
 def hello_world():
     return "Hello, World!"
+
+
+@app.errorhandler(ValidationError)
+def invalid_request(err):
+    return ({"error": err.messages}), 400

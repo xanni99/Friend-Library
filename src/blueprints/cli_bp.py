@@ -37,11 +37,13 @@ def db_create():
             name = "Gru",
             password=bcrypt.generate_password_hash("stealthemoon").decode("utf8"),
             is_admin=True,
+            group_id = 1234,
             group=groups[0],
         ),
         User(
             email="kevin@test.com",
             name="Kevin",
+            group_id = 1234,
             password=bcrypt.generate_password_hash("BANANAS!").decode("utf8"),
             group=groups[1]
         ),

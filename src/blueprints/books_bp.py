@@ -33,27 +33,32 @@ def add_book():
 
 # View all books (R)
 @books_bp.route("/")
-# @jwt_required()
+@jwt_required()
 def all_books():
-    # Get all books from the database
-    stmt = db.select(Book)
-    # Return all books from the database
+    # Get all books from the database available in user's group
+    current_user = get_jwt_identity()
+    user_group_id = User.query.filter_by(id=current_user).first().group_id
+    stmt = db.select(Book).join(User).filter(User.group_id == user_group_id)
+    # Return all books from the database within the user's group
     books = db.session.scalars(stmt).all()
     return BookSchema(many=True, only=["title", "author", "description", "genre","is_available", "reviews"]).dump(books)
 
 
 # View one book (R)
 @books_bp.route("/<int:id>")
-# @jwt_required()
+@jwt_required()
 def one_book(id):
+    current_user = get_jwt_identity()
+    user_group_id = User.query.filter_by(id=current_user).first().group_id
+    book = db.session.query(Book).join(User).filter(User.group_id == user_group_id, Book.id == id).first_or_404()
     # Get book from the database using given ID or return an error if book id does not exist
-    book = db.get_or_404(Book, id)
+    # book = db.get_or_404(Book, id)
     return BookSchema(only=["title", "author", "description", "genre","is_available", "reviews"]).dump(book)
 
 
 # View all AVAILABLE books (R)
 @books_bp.route("/available")
-# @jwt_required()
+@jwt_required()
 def available_books():
     # Get all books from the database where is_available = True
     stmt = db.select(Book).where(Book.is_available == True)

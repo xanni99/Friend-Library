@@ -4,7 +4,7 @@ from typing import List
 from marshmallow import fields
 from marshmallow.validate import Length
 from init import db, ma
-
+from models.group import GroupSchema
 
 class User(db.Model):
     __tablename__ = "users"
@@ -29,12 +29,13 @@ class UserSchema(ma.Schema):
         required=True,
     )
     name = fields.String(required=True)
-    group = fields.Nested("GroupSchema")
+    group_id = fields.Integer(required=True)
+    group = fields.Nested(GroupSchema, only=["name"])
     books = fields.Nested("BookSchema", only=["title"])
     is_admin = fields.Boolean(required=False)
 
     class Meta:
-        fields = ("id", "email", "name", "password", "is_admin", "group", "books")
+        fields = ("id", "email", "name", "password", "is_admin", "group", "group_id", "books")
 
 
 class UserUpdateSchema(ma.Schema):
@@ -42,9 +43,10 @@ class UserUpdateSchema(ma.Schema):
     password = fields.String(
         validate=Length(min=8, error="Password must be at least 8 characters long"))
     name = fields.String()
+    group_id = fields.Integer()
     group = fields.Nested("GroupSchema")
     books = fields.Nested("BookSchema", only=["title"])
     is_admin = fields.Boolean(required=False)
 
     class Meta:
-        fields = ("id", "email", "name", "password", "is_admin", "group", "books")
+        fields = ("id", "email", "name", "password", "is_admin", "group_id", "group", "books")

@@ -4,6 +4,7 @@ from flask import request
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from init import db, bcrypt
 from models.user import User, UserSchema, UserUpdateSchema
+from models.group import Group
 
 
 users_bp = Blueprint('users', __name__, url_prefix="/users")
@@ -18,7 +19,7 @@ def create_user():
     if User.query.filter_by(email=user_data["email"]).first() is not None:
         return {"error": "User with this email already exists"}, 400
     # Check group id matches an existing group in the database
-    if User.query.filter_by(group_id=user_data["group_id"]).first() is None:
+    if Group.query.filter_by(id=user_data["group_id"]).first() is None:
         return {"error": "Group does not exist"}, 400
     # Hash password for storing in db
     user_data["password"] = bcrypt.generate_password_hash(user_data["password"]).decode("utf-8")
@@ -26,7 +27,7 @@ def create_user():
     user = User(**user_data)
     db.session.add(user)
     db.session.commit()
-    return UserSchema().dump(user_data), 201
+    return UserSchema(exclude=["password", "is_admin", "group_id"]).dump(user_data), 201
 
 
 # User Login and token generation (C)
