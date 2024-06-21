@@ -20,6 +20,14 @@ def admin_only(fn):
     return inner
 
 
+# Get group_id of current user
+def get_group_id():
+    user_id = get_jwt_identity()
+    stmt = db.select(User).where(User.id == user_id)
+    user = db.session.scalar(stmt)
+    return user.group_id
+
+
 # # Ensure that the JWT user is owner of profile
 # def authorize_owner(user):
 #     user_id = get_jwt_identity()
