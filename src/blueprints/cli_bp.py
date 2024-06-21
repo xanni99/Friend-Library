@@ -45,7 +45,7 @@ def db_create():
             name="Kevin",
             group_id = 1234,
             password=bcrypt.generate_password_hash("BANANAS!").decode("utf8"),
-            group=groups[1]
+            group=groups[0]
         ),
     ]
 

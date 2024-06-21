@@ -74,6 +74,7 @@ def update_book(id):
     # Get current user id and group_id and ensure the book attempting to be updated from the database exists
     current_user_id = get_jwt_identity()
     user_group_id = get_group_id()
+    # Get the instance of book where the user_group_id exists within the book's user_id and where the book_id is =the given id
     book = db.session.query(Book).join(User).filter(User.group_id == user_group_id, Book.id == id).first_or_404()
     # Check the current user is the owner of the book attempting to be updated
     if book.user_id != current_user_id:
@@ -95,10 +96,11 @@ def update_book(id):
 @books_bp.route("/delete/<int:id>", methods=["DELETE"])
 @jwt_required()
 def delete_book(id):
-    # Get current user ID and the book attempting to be deleted from the database
+    # Get current user, userID, groupID and the book attempting to be deleted from the database
     current_user_id = get_jwt_identity()
     current_user = db.get_or_404(User, current_user_id)
     user_group_id = get_group_id()
+    # Get the instance of book where the user_group_id exists within the book's user_id and where the book_id is =the given id
     book = db.session.query(Book).join(User).filter(User.group_id == user_group_id, Book.id == id).first_or_404()
     # Check the current user is the owner of the book attempting to be deleted, or an admin
     if current_user_id != book.user_id and not current_user.is_admin:
