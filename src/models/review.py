@@ -18,8 +18,8 @@ class Review(db.Model):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     book_id: Mapped[int] = mapped_column(ForeignKey("books.id"))
 
-    user: Mapped["User"] = relationship(back_populates="reviews", cascade="all")
-    book: Mapped["Book"] = relationship(back_populates="reviews", cascade="all")
+    user: Mapped["User"] = relationship(back_populates="reviews")
+    book: Mapped["Book"] = relationship(back_populates="reviews")
 
 
 class ReviewSchema(ma.Schema):

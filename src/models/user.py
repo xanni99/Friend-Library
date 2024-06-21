@@ -17,9 +17,9 @@ class User(db.Model):
 
     group_id: Mapped[int] = mapped_column(ForeignKey("groups.id"))
     group: Mapped[List["Group"]] = relationship(back_populates="user")
-    books: Mapped[List["Book"]] = relationship(back_populates="user", cascade="all")
-    loans: Mapped[List["Loan"]] = relationship(back_populates="user", cascade="all")
-    reviews: Mapped[List["Review"]] = relationship(back_populates="user", cascade="all")
+    books: Mapped[List["Book"]] = relationship(back_populates="user", cascade="all, delete-orphan")
+    loans: Mapped[List["Loan"]] = relationship(back_populates="user", cascade="all, delete-orphan")
+    reviews: Mapped[List["Review"]] = relationship(back_populates="user", cascade="all, delete-orphan")
 
 
 class UserSchema(ma.Schema):

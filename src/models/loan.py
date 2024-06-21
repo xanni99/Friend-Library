@@ -20,8 +20,8 @@ class Loan(db.Model):
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     book_id: Mapped[int] = mapped_column(ForeignKey("books.id"))
 
-    user: Mapped["User"] = relationship(back_populates="loans", cascade="all")
-    book: Mapped["Book"] = relationship(back_populates="loans", cascade="all")
+    user: Mapped["User"] = relationship(back_populates="loans")
+    book: Mapped["Book"] = relationship(back_populates="loans")
 
 
 class LoanSchema(ma.Schema):
