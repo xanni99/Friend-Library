@@ -37,7 +37,9 @@ def add_book():
 def all_books():
     # Get all books from the database available in user's group
     current_user = get_jwt_identity()
+    # Get group_id of cuurent user by searching users table for the current user's id and then retrieving their group_id
     user_group_id = User.query.filter_by(id=current_user).first().group_id
+    # Get all of the books from the database where the books belong to user's with the same group id
     stmt = db.select(Book).join(User).filter(User.group_id == user_group_id)
     # Return all books from the database within the user's group
     books = db.session.scalars(stmt).all()
@@ -49,10 +51,10 @@ def all_books():
 @jwt_required()
 def one_book(id):
     current_user = get_jwt_identity()
+    # Get group_id of cuurent user by searching users table for the current user's id and then retrieving their group_id
     user_group_id = User.query.filter_by(id=current_user).first().group_id
+    # Get the specified book from the database, using tthe parsed book id where the book_id exists within the group id
     book = db.session.query(Book).join(User).filter(User.group_id == user_group_id, Book.id == id).first_or_404()
-    # Get book from the database using given ID or return an error if book id does not exist
-    # book = db.get_or_404(Book, id)
     return BookSchema(only=["title", "author", "description", "genre","is_available", "reviews"]).dump(book)
 
 
