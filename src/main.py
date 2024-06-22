@@ -24,3 +24,18 @@ def hello_world():
 @app.errorhandler(ValidationError)
 def invalid_request(err):
     return ({"error": err.messages}), 400
+
+
+@app.errorhandler(KeyError)
+def missing_key(err):
+    return {"error": f"Missing field: {str(err)}"}, 400
+
+
+@app.errorhandler(400)
+def bad_request(err):
+    return {"error": "All Fields Required for this request"}, 400
+
+
+@app.errorhandler(404)
+def not_found(err):
+    return {"error": f"Requested URL does not exist"}, 404

@@ -26,10 +26,3 @@ def get_group_id():
     stmt = db.select(User).where(User.id == user_id)
     user = db.session.scalar(stmt)
     return user.group_id
-
-
-# # Ensure that the JWT user is owner of profile
-# def authorize_owner(user):
-#     user_id = get_jwt_identity()
-#     if user_id != user.user_id:
-#         abort(make_response(jsonify(error="You must be the owner of the account to update details"),403))
