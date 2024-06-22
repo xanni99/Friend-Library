@@ -108,4 +108,4 @@ def delete_review(id):
     db.session.delete(review)
     db.session.commit()
     # Return message that review has been deleted
-    return {"message": "Review deleted"}, 200
+    return {"message": "Review deleted"}, 204

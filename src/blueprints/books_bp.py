@@ -113,4 +113,4 @@ def delete_book(id):
     db.session.delete(book)
     db.session.commit()
     # Return message that book has been deleted
-    return {"message": "Book deleted"}, 200
+    return {"message": "Book deleted"}, 204
