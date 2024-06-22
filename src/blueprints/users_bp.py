@@ -5,6 +5,7 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from init import db, bcrypt
 from models.user import User, UserSchema, UserUpdateSchema
 from models.group import Group
+from auth import get_group_id
 
 
 users_bp = Blueprint('users', __name__, url_prefix="/users")
@@ -47,10 +48,12 @@ def login():
 
 # Get all users (R)
 @users_bp.route("/")
-# @jwt_required()
+@jwt_required()
 def get_all_users():
-    # Get all users from the database
-    stmt = db.select(User)
+    # Get current_user_group_id to ensure they are only accessing data from their group
+    user_group_id = get_group_id()
+    # Get all users from the database that have the same group_id as the current user
+    stmt = db.select(User).filter(User.group_id == user_group_id)
     users = db.session.scalars(stmt).all()
     # Return all users in the database only showing their name and books in the result
     return UserSchema(only=["name", "books"],many=True).dump(users), 200

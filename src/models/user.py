@@ -5,6 +5,7 @@ from marshmallow import fields
 from marshmallow.validate import Length
 from init import db, ma
 from models.group import GroupSchema
+from models.book import BookSchema
 
 class User(db.Model):
     __tablename__ = "users"
@@ -31,7 +32,7 @@ class UserSchema(ma.Schema):
     name = fields.String(required=True)
     group_id = fields.Integer(required=True)
     group = fields.Nested(GroupSchema, only=["name"])
-    books = fields.Nested("BookSchema", only=["title"])
+    books = fields.List(fields.Nested(BookSchema, only=["title"]))
     is_admin = fields.Boolean(required=False)
 
     class Meta:

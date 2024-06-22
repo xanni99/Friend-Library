@@ -79,6 +79,8 @@ def user_loans():
     stmt = db.select(Loan).where(Loan.user_id == current_user_id)
     # Return all loans from the database
     loans = db.session.scalars(stmt).all()
+    if not loans:
+        return {"message": "No Loans have been made by this user"}, 200
     return LoanSchema(many=True, exclude= ["id"]).dump(loans)
 
 
@@ -93,5 +95,7 @@ def all_loans():
     stmt = db.select(Loan).join(User).filter(User.group_id == user_group_id)
     # Return all loans from the database
     loans = db.session.scalars(stmt).all()
+    if not loans:
+        return {"message": "No Loans have been made in this library"}, 200
     return LoanSchema(many=True, exclude= ["id"]).dump(loans)
 

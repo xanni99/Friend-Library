@@ -47,6 +47,8 @@ def all_reviews():
     stmt = db.select(Review).join(User).filter(User.group_id == user_group_id)
     # Return all reviews from the database
     reviews = db.session.scalars(stmt).all()
+    if not reviews:
+        return {"message": "No Reviews Available"}, 200
     return ReviewSchema(many=True, only=["rating", "review", "date", "user", "book"]).dump(reviews)
 
 
@@ -64,7 +66,7 @@ def book_reviews(book_id):
     # Return all reviews from the database with this book id
     reviews = db.session.scalars(stmt).all()
     if not reviews:
-        return {"message": "No Reviews"}, 200
+        return {"message": "No Reviews for this book"}, 200
     return ReviewSchema(many=True, only=["rating", "review", "date", "user", "book"]).dump(reviews)
 
 

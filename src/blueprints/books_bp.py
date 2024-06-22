@@ -41,6 +41,8 @@ def all_books():
     stmt = db.select(Book).join(User).filter(User.group_id == user_group_id)
     # Return all books from the database where the user_group_id exists within the books' user_id
     books = db.session.scalars(stmt).all()
+    if not books:
+        return {"message": "No Books in Library"}, 200
     return BookSchema(many=True, only=["title", "author", "description", "genre","is_available", "reviews"]).dump(books)
 
 
@@ -63,6 +65,8 @@ def available_books():
     # Get all books from the database where is_available = True, and the user_group_id exists within the books' user_id
     stmt = db.select(Book).where(Book.is_available == True).join(User).filter(User.group_id == user_group_id)
     books = db.session.scalars(stmt).all()
+    if not books:
+        return {"message": "No Available Books"}, 200
     # Return all books that meet the above criteria and display the following attributes in the response
     return BookSchema(many=True, only=["title", "author", "description", "genre","is_available", "reviews"]).dump(books)
 
