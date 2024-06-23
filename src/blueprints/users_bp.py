@@ -66,6 +66,7 @@ def update_user(id):
     current_user_id = get_jwt_identity()
     if current_user_id!= id:
         return {"error": "You must be the owner of the account to update details"}, 403
+    # Get the instance of User using id provided or throw an error if not found
     user = db.get_or_404(User, id)
     user_info = UserUpdateSchema(only=["name", "email", "password"]).load(request.json, unknown="exclude")
     user.name = user_info.get("name", user.name)
@@ -73,7 +74,6 @@ def update_user(id):
     new_password = user_info.get("password")
     if new_password:
         user.password = bcrypt.generate_password_hash(new_password).decode("utf-8")
-
     db.session.commit()
     return {"message": "Details Successfully Updated"}, 200
 
@@ -84,10 +84,11 @@ def update_user(id):
 def delete_user(id):
     # Check if the user trying to delete is the owner of the account, or an admin
     current_user_id = get_jwt_identity()
+    # Get the instance of User currently making the request using current_user_id
     current_user = db.get_or_404(User, current_user_id)
     if current_user_id!= id and not current_user.is_admin:
         return {"error": "You must be the owner of the account, or an admin to delete details"}, 403
-    # Now authorised, get corresponding user profile using given ID
+    # Now authorised, get corresponding user profile using given ID from URL
     user = db.get_or_404(User, id)
     # Delete the user from the database
     db.session.delete(user)
