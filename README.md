@@ -46,3 +46,44 @@ Below are a few progress screenshots throughout the length of the project. The f
 ![Screenshot of Trello board halfway through project]()
 
 In addition to using Trello for overall project management, GitHub was utilised for version control and code management. With over 40 commits, GitHub provided an efficient way to store, track and manage changes to the code throughout the project.
+
+## R3: Third-Party Services, Packages and Dependencies:
+
+| Packages     | Description |
+| ------------ | ------------------------------------------ |
+| Flask        | .......................................... |
+| PostgreSQL   | .......................................... |
+| SQLAlchemy   | .......................................... |
+| Psycopg2     | .......................................... |
+| Marshmallow  | .......................................... |
+| Date         | .......................................... |
+| Environ      | .......................................... |
+
+**Dependencies**
+
+![Screenshot of the dependencies required for this API](docs/dependencies.png)
+
+## R4: Benefits and Drawbacks of the App’s Database System:
+
+The database system used for this project was PostgreSQL. PostgreSQL is “a powerful, open source object-relational database system that uses and extends the SQL language combined with many features that safely store and scale the most complicated data workloads” (PostgreSQL, 2019). With more than 35 years of active development, PostgreSQL is known for its proven “architecture, reliability, data integrity, robust feature set and extensibility” (PostgreSQL, 2019). As a result, PostgreSQL has increasingly become the open source relational database of choice for a large majority of the community.
+
+PostgreSQL comes with many benefits that has attracted a large community of users. Firstly, PostgreSQL source code is available under an open-source licence, allowing users to use, modify and implement code at no charge (Amazon Web Services, n.d.). Being no-cost ultimately poses huge economic benefits to not only individual users, but to larger companies as well. As a result of this, PostgreSQL has been able to foster a large dedicated community of contributors and enthusiasts. Furthermore, being open-source, this community regularly find bugs and fixes, which ultimately adds to the overall security of the database system (Amazon Web Services, n.d.).
+
+Another benefit of PostgreSQL is its customizability and extensibility. PostgreSQL’s design allows users to add new custom data types, operators and functions to the database, ultimately expanding it’s capability. Additionally, it’s extensibility has proven to be useful in managing particular data types or developing domain-specific features (BrainerHub Solutions, 2023).
+
+Furthermore, PostgreSQL has a variety of indexes including “B-tree, hash and generic search trees” (BrainerHub Solutions, 2023). These indexes ultimately improve query performance and provide practical data sorting and searching capabilities. In addition to this, PostgreSQL assists full-text search capabilities with stemming, ranking and phrase-searching support (BrainerHub Solutions, 2023).
+
+Finally, PostgreSQL is a highly fault tolerant and ACID-compliant database (Amazon Web Services, n.d.). ACID refers to atomicity, consistency, isolation and durability - four key characteristics that make database transactions reliable (Amazon Web Services, n.d.). Being ACID-compliant indicates that data in a database is accurate as incomplete changes are never stored. Features of PostgreSQL such as logging, Multi-Version Concurrency Control, and point-in-time recovery make ACID compliance possible (Amazon Web Services, n.d.).
+
+While it is clear that there are numerous benefits to using PostgreSQL as a database, it is inevitable that there are also some drawbacks. Firstly, PostgreSQL is an open source database application, which is not owned by one particular organisation. While this is mostly seen as a benefit for reasons listed earlier, it also means that there is no single point of contact for support, nor does it come with warranty, liability or indemnity protection (Dhruv, 2019). In addition to this, being open source and managed by multiple members of the community, it can lack uniformity across it’s interfaces and features, ultimately impacting its coherence and comprehensiveness (Dhruv, 2019).
+
+Another drawback of PostgreSQL is that it can have slow performance. Due to its relational database structure, when finding a query, PostgreSQL has to begin with the first row and then read through the entire table to find relevant data. As a result it can perform particularly slow when there is a large amount of data stored in the rows and columns, containing many fields and information to compare (Dhruv, 2019).
+
+## R5: Object-Relational Mapping in the App:
+
+## R6: Entity Relationship Diagram:
+
+## R7: Implemented Models and their Relationships:
+
+## R8: API Endpoints:
+
