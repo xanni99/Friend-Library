@@ -43,21 +43,21 @@ Below are a few progress screenshots throughout the length of the project. The f
 
 **Trello Board at End of Project (30/06/24):**
 
-![Screenshot of Trello board halfway through project]()
+![Screenshot of Trello board at the end of project]()
 
 In addition to using Trello for overall project management, GitHub was utilised for version control and code management. With over 40 commits, GitHub provided an efficient way to store, track and manage changes to the code throughout the project.
 
 ## R3: Third-Party Services, Packages and Dependencies:
 
-| Packages     | Description |
+| **Packages**     | **Description** |
 | ------------ | ------------------------------------------ |
-| Flask        | .......................................... |
-| PostgreSQL   | .......................................... |
-| SQLAlchemy   | .......................................... |
-| Psycopg2     | .......................................... |
-| Marshmallow  | .......................................... |
-| Date         | .......................................... |
-| Environ      | .......................................... |
+| Flask        | **Flask** is a micro web framework written in python. Flask serves as the core framework of the application, handling routing, request processing, and responses. It provides the essential tools needed to build web applications and APIs.|
+|| **Flask-JWT-Extended**: This is an extension for Flask that simplifies the integration of JSON Web Tokens (JWT) for authentication and authorization.This extension manages the creation, handling, and verification of JWTs. It helps secure the application by ensuring that only authenticated users can access certain endpoints.
+| PostgreSQL   | **PostgreSQL** is an open-source, powerful, and highly extensible relational database management system (RDBMS). PostgreSQL serves as the database backend for the application, storing all persistent data including user information, application state, and other critical data. |
+| SQLAlchemy   | **SQLAlchemy** is a SQL toolkit and Object-Relational Mapping (ORM) library for Python. SQLAlchemy facilitates interaction with the PostgreSQL database by providing a high-level ORM to manage database models and queries, enabling interaction with the database using Python classes and objects. |
+| Psycopg2     | **Psycopg2** is a PostgreSQL adapter for Python. Psycopg2 provides the interface to connect the Flask application to the PostgreSQL database, allowing SQLAlchemy to execute SQL queries and transactions on the PostgreSQL server. |
+| Marshmallow  | **Marshmallow** is an ORM/ODM/framework-agnostic library for object serialisation/deserialization and validation. Marshmallow is used to serialise (convert objects to JSON) and deserialize (convert JSON to objects) data, and to validate the data before it's processed or stored in the database. |
+| Bcrypt        |**Bcrypt** is a library for hashing and verifying passwords using the bcrypt hashing algorithm. Bcrypt is used within the app to securely hash passwords before storing them in the database and to verify entered passwords during authentication. Hashing passwords helps protect user data in case of a database breach. |
 
 **Dependencies**
 
