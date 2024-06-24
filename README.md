@@ -81,9 +81,26 @@ Another drawback of PostgreSQL is that it can have slow performance. Due to its 
 
 ## R5: Object-Relational Mapping in the App:
 
+The object-relational mapping (ORM) system used in this app was SQLAlchemy. SQLAlchemy is an ORM library for Python, which means it facilitates the management and interaction between Python objects and relational databases. Ultimately it allows for interaction with the database using Python code instead of writing raw SQL queries, which enhances code readability, maintainability, and modularity. There are many features and functionalities that SQLAlchemy provides that allowed for the creation of this application.
+
+Firstly, **‘Declarative Mapping’** is a technique where classes are mapped to database tables using Python classes and SQLAlchemy’s declarative_base class. This approach makes it easy to define database schemas and their relationships in an object-oriented manner.
+
+Secondly, SQLAlchemy’s **Session Management** allows a session to be created, which serves as a workspace for all the operations you perform on your database objects. It allows you to add, update, delete, and query objects, and then commit the changes to the database. For example, in the code block below, a new book is added to the database, and the changes are committed using the session object.
+
+![screenshot of code block that adds new instance of book to the database using session management](docs/session_management_example.png)
+
+Thirdly, utilising SQLAlchemy ORM allows for complex **queries** using the session object and various filtering options. The query method is used to retrieve an instance of a book from the database using SQLAlchemy’s querying capabilities. In this particular example, these capabilities allow for a more specific query that joins the User table and filters by user_group_id and book_id.
+
+![screenshot of code block that queries the database to retrieve an instance of book](docs/queries_example.png)
+
+In addition to this, SQLAlchemy supports various types of **relationships** between tables, such as one-to-many, many-to-one, and many-to-many. These relationships are managed using foreign keys and the relationship function. This can be seen in the code block below for the class ‘Book’. It can be seen that it has a relationship with ‘User’, ‘Loan’ and ‘Review’’.
+
+![screenshot of code block of class ‘Book’ including its relationships to other classes](docs/relationship_example.png)
+
+Finally, SQLAlchemy ORM provides mechanisms to enforce **data validation** and integrity. Constraints such as unique, nullable, and foreign key constraints ensure the integrity of the data. For example, it can be seen in the code block above for the class ‘Book’ that it has a Foreign Key constraint ‘user_id’ populated from the ‘Users’ table.
+
 ## R6: Entity Relationship Diagram:
 
 ## R7: Implemented Models and their Relationships:
 
 ## R8: API Endpoints:
-
