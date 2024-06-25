@@ -203,9 +203,9 @@ The Loans model represents a loan within the application and is a join table for
 
 ![Screenshot of the Group model](docs/loan_model.png)
 
-As stated above, Loans have a (None or) Many to One relationship with Books, as None or Many Loans can belong to One Book and a Book can have none or many Loans.
+As stated above, **Loans have a (None or) Many to One** relationship with Books, as None or Many Loans can belong to One Book and a Book can have none or many Loans.
 
-Also stated above, Loans have a (None or) Many to One relationship with Users, as None or Many Loans can belong to One User and a User can have none or many Loans.
+Also stated above, **Loans have a (None or) Many to One** relationship with Users, as None or Many Loans can belong to One User and a User can have none or many Loans.
 
 By having this join table that has ‘book_id’ and ‘user_id’ as foreign keys, it allows particular books to be loaned by a particular user and this information to be tracked.
 
@@ -215,9 +215,9 @@ The Reviews model represents a review made within the application. The Reviews m
 
 ![Screenshot of the Group model](docs/review_model.png)
 
-As stated above, Reviews have a (None or) Many to One relationship with Users, as None or Many Reviews can belong to One User and a User can have none or many Reviews.
+As stated above, Reviews have a **(None or) Many to One** relationship with Users, as None or Many Reviews can belong to One User and a User can have none or many Reviews.
 
-Also stated above, Reviews have a (None or) Many to One relationship with Books, as None or Many Reviews can belong to One Book and a Book can have none or many Reviews.
+Also stated above, Reviews have a **(None or) Many** to One relationship with Books, as None or Many Reviews can belong to One Book and a Book can have none or many Reviews.
 
 **Overall**, the above relationships aid in the implementation of a robust database. The foreign key constraints ensure that references between tables remain valid, preventing orphan records and maintaining referential integrity. In addition to this, the model’s relationships can be used to access more complex data as seen in the examples above.
 
