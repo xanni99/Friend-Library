@@ -13,11 +13,11 @@ Firstly, when friends or family borrow books, it is easy to lose track of who bo
 
 Secondly, the cost of living crisis has meant that “40% of Australian households have struggled to afford household basics in the last three months, and over half of Australians say they will struggle to pay an essential bill over the next three months” (The Salvation Army Australia, 2023). As a result, the cost of living crisis reduces disposable income, making it harder for people to purchase new books. ‘The Friend Library’ provides a cost-effective solution for a group of friends to access a wide range of books, promoting reading and literacy even during economically challenging times. 
 
-Finally, sustainability is a crucial consideration in today's world, particularly regarding the production and consumption of goods. A study by the Pew Research Center found that while the average American reads 12 books per year, a significant portion of personal book collections remain underutilised after initial reading (Perrin, 2016). The ‘Friend Library’ app addresses sustainability concerns by promoting the sharing of books, reducing the need for new purchases, and ultimately minimising environmental impact. 
+Finally, sustainability is a crucial consideration in today's world, particularly regarding the production and consumption of goods. A study by the Pew Research Center found that while the average American reads 12 books per year, a significant portion of personal book collections remain underutilised after initial reading (Perrin, 2016). The ‘Friend Library’ app addresses sustainability concerns by promoting the sharing of books, reducing the need for new purchases, and ultimately minimising environmental impact.
 
 ## R2: Allocation and Tracking of Tasks:
 
-Throughout the length of this project, Trello was used as a project management tool in order to help me allocate and keep track of the tasks required. For this project, I ordered my Trello board into 4 lists, and used labels and due dates to identify the importance/priority of each card. 
+Throughout the length of this project, Trello was used as a project management tool in order to help me allocate and keep track of the tasks required. For this project, I ordered my Trello board into 4 lists, and used labels and due dates to identify the importance/priority of each card.
 
 The colour key for the labels can be found below:
 
@@ -29,7 +29,7 @@ The colour key for the labels can be found below:
 
 Firstly, I had a Project ‘Overview’ List, which broke the project down into the 6 broad steps that had to be taken in order to submit a complete assignment. By doing this, I was able to establish a timeline using the ‘due date’ feature provided by Trello which gave me an idea of when each step should be completed by. I chose to implement the due dates on the broader steps rather than giving each and every task a due date as not only was this more time efficient, I was unsure of how long each little card (within the other lists) would take.
 
-The other 3 lists included a more specific breakdown tasks. For more complex tasks I further broke these down through the use of Trello’s ‘Checklist’ feature which allowed me to create more manageable mini tasks. Ultimately, this allowed me to more specifically keep track of what task I was up to. Although the majority of these cards/tasks were planned at the beginning of the project, some additional cards and/or checklist items were added as a greater understanding of the project requirements became clear. 
+The other 3 lists included a more specific breakdown tasks. For more complex tasks I further broke these down through the use of Trello’s ‘Checklist’ feature which allowed me to create more manageable mini tasks. Ultimately, this allowed me to more specifically keep track of what task I was up to. Although the majority of these cards/tasks were planned at the beginning of the project, some additional cards and/or checklist items were added as a greater understanding of the project requirements became clear.
 
 An example of a card with a checklist can be seen below:
 
@@ -104,6 +104,7 @@ Finally, SQLAlchemy ORM provides mechanisms to enforce **data validation** and i
 ![ERD of 'Friend Library Application'](docs/friend_library_erd.png)
 
 **Crow's Foot Notation Key**:
+
 ![Crow's Foot Notation Key](docs/crows_foot_notation.jpg)
 
 **Relationsip Table**:
@@ -126,5 +127,107 @@ As can be seen from the ERD above, all the tables (Users, Books, Loans, Reviews,
 By ensuring that all of the tables are in 3NF and all relationships are modelled correctly, it will ensure referential integrity, reduce data redundancy, allow for scalability, and allow for efficient querying. Ultimately, the above ERD provides a robust structure that supports the application's functionality,ensuring a foundation for efficient data management and operations.
 
 ## R7: Implemented Models and their Relationships:
+
+**GROUPS:**
+
+The Groups model represents a group within the application. The Groups model only has one relationship:
+
+![Screenshot of the Group model](docs/group_model.png)
+
+Groups have a **One to (None or) Many** relationship with Users, as one group can have none or many users and users can only belong to one group. Each User belongs to a particular Group and only the user’s friends/family that they give the code to will be in their group. In order to allow for this, ‘group_id’ is a foreign key in Users. This allows multiple different friend/family groups to use the one application and only see corresponding data that is relevant to them.
+
+**Example Query using Relationship:**
+```SQL
+SELECT * FROM Users WHERE group_id = ?;
+```
+
+**USERS:**
+
+The Users model represents a user within the application. The Users model has four relationships:
+
+![Screenshot of the Group model](docs/user_model.png)
+
+As stated above, Users have a **(None or) Many to One** relationship with Groups, as None or Many Users can belong to One Group and a Group can have none or many users. 
+
+Users have a **One to (None or) Many** relationship with Books, as One User can be the owner of none or many books and a book can only belong to one user. Each user can add none to many books that they are willing to share with other users in their group. By having this relationship (and ‘user_id’ as a foreign key in Book) it allows multiple books that belong to one user to be tracked and grouped together.
+
+**Example Query using Relationship:**
+
+```SQL
+SELECT * FROM Books WHERE user_id = ?;
+```
+
+Users have a One to (None or) Many relationship with Loans, as One User can have none or many loans and a loan can only belong to one user. By having this relationship (and ‘user_id’ as a foreign key in Loans) it allows loans by a particular user to be made and tracked.
+
+**Example Query using Relationship:**
+
+```SQL
+SELECT * FROM Loans WHERE user_id = ?;
+```
+
+Users have a One to (None or) Many relationship with Reviews, as One User can make none or many reviews and a review can only belong to one user. By having this relationship (and ‘user_id’ as a foreign key in Reviews) it allows reviews by a particular user to be made and tracked.
+
+**Example Query using Relationship:**
+
+```SQL
+SELECT * FROM Reviews WHERE user_id = ?;
+```
+
+**BOOKS:**
+
+The Books model represents a book within the application. The Books model has three relationships:
+
+![Screenshot of the Group model](docs/book_model.png)
+
+As stated above, Books have a **(None or) Many to One** relationship with Users, as None or Many Books can belong to One User and a User can have none or many Books.
+
+Books have a **One to (None or) Many** relationship with Loans, as One Book can have none or many loans and a Loan can only have one Book. By having this relationship (and ‘book_id’ as a foreign key in Loans) it allows loans for a particular book to be made and tracked.
+
+**Example Query using Relationship:**
+
+```SQL
+SELECT * FROM Loans WHERE book_id = ?;
+```
+
+Books have a **One to (None or) Many** relationship with Reviews, as One Book can have none or many reviews and a Review can only have one Book. By having this relationship (and ‘book_id’ as a foreign key in Reviews) it allows reviews for a particular book to be made and tracked.
+
+**Example Query using Relationship:**
+
+```SQL
+SELECT * FROM Reviews WHERE book_id = ?;
+```
+
+**LOANS:**
+
+The Loans model represents a loan within the application and is a join table for Users and Books as they have a many to many relationship when it comes to borrowing (loaning) books. As a result, the Loans model has two relationships:
+
+![Screenshot of the Group model](docs/loan_model.png)
+
+As stated above, Loans have a (None or) Many to One relationship with Books, as None or Many Loans can belong to One Book and a Book can have none or many Loans.
+
+Also stated above, Loans have a (None or) Many to One relationship with Users, as None or Many Loans can belong to One User and a User can have none or many Loans.
+
+By having this join table that has ‘book_id’ and ‘user_id’ as foreign keys, it allows particular books to be loaned by a particular user and this information to be tracked.
+
+**REVIEWS:**
+
+The Reviews model represents a review made within the application. The Reviews model has two relationships:
+
+![Screenshot of the Group model](docs/review_model.png)
+
+As stated above, Reviews have a (None or) Many to One relationship with Users, as None or Many Reviews can belong to One User and a User can have none or many Reviews.
+
+Also stated above, Reviews have a (None or) Many to One relationship with Books, as None or Many Reviews can belong to One Book and a Book can have none or many Reviews.
+
+**Overall**, the above relationships aid in the implementation of a robust database. The foreign key constraints ensure that references between tables remain valid, preventing orphan records and maintaining referential integrity. In addition to this, the model’s relationships can be used to access more complex data as seen in the examples above.
+
+A more complex example using multiple relationships and foreign keys, would be if a user wanted to retrieve a list of available books. Although it seems simple, in order to retrieve available books within the user’s group only, the Groups-User relationship and the Users-Books relationship will need to be utilised. The Groups-Users Relationship is key throughout the use of this app. This relationship allows data to be returned that is only relevant to the group of the particular user. In this example it allows only books available within the user’s group to be returned rather than all of the available books within the entire database which may belong to user’s from other groups (that are not the user’s friends or family and therefore would not be able to borrow the book in real life). A query that will return this data can be seen below:
+
+```SQL
+SELECT * FROM Books 
+JOIN Users ON Books.user_id = Users.id 
+WHERE Books.is_available = TRUE 
+AND Users.group_id = :user_group_id;
+```
 
 ## R8: API Endpoints:
