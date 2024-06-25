@@ -101,6 +101,24 @@ Finally, SQLAlchemy ORM provides mechanisms to enforce **data validation** and i
 
 ## R6: Entity Relationship Diagram:
 
+![ERD of 'Friend Library Application'](docs/friend_library_erd.png)
+
+| Entity One | Relationship | Entity Two | Description |
+| :--------: | :----------: | :--------: | :----------:|
+| Groups | One (required) to none or many | Users | One Group can have none to many Users|
+| Users | One (required) to none or many | Books | One user can be the **owner of** none to many Books |
+| Users | Many to Many | Books | A User can **borrow** many Books and a Book can be **borrowed** by many Users - managed through **Loans table** |
+| Users | One (required) to none or many | Loans | One User can have none to many Loans|
+| Users | One (required) to none or many | Reviews | One User can have none to many Reviews|
+| Books | One (required) to none or many | Loans | One Book can have none to many Loans|
+| Books | One (required) to none or many | Reviews | One Book can have none to many Reviews|
+
+The Entity Relationship Diagram (ERD) modelling this application’s database, was created using **Crow’s Foot Notation**. As can be seen in the diagram above (and more clearly laid out in the relationships table), the relations between the diagrammed models are all ‘One to (None or) Many’ Relationships. It can also be seen from the relationships table that there is a ‘Many to Many’ relationship between Users and the **borrowing of** Books, as a User can **borrow** many Books and a Book can be **borrowed** by many Users. However, in the ERD this ‘Many to Many’ relationship is managed through the Loans table which acts as a junction table between Users and Books.
+
+As can be seen from the ERD above, all the tables (Users, Books, Loans, Reviews, and Groups) are in Third Normal Form (3NF). Each table has no partial or transitive dependencies, ensuring data integrity and reducing redundancy. If each model was not in 3NF, some tables may be combined in order to reduce the complexity of queries. For example in First Normal Form (1NF), the books and loans table could be combined (see figure below), however this would introduce redundancy as a single book can have multiple loan records over time. As a result, ‘user_id’, ‘Loan_date’ and ‘Due_date’ would be repeated for each loan record, increasing data redundancy.
+
+By ensuring that all of the tables are in 3NF and all relationships are modelled correctly, it will ensure referential integrity, reduce data redundancy, allow for scalability, and allow for efficient querying. Ultimately, the above ERD provides a robust structure that supports the application's functionality,ensuring a foundation for efficient data management and operations.
+
 ## R7: Implemented Models and their Relationships:
 
 ## R8: API Endpoints:
