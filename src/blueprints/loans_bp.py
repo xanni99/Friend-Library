@@ -98,4 +98,3 @@ def all_loans():
     if not loans:
         return {"message": "No Loans have been made in this library"}, 200
     return LoanSchema(many=True, exclude= ["id"]).dump(loans)
-

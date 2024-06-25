@@ -17,6 +17,7 @@ class User(db.Model):
     is_admin: Mapped[bool] = mapped_column(Boolean(), server_default="false")
 
     group_id: Mapped[int] = mapped_column(ForeignKey("groups.id"))
+    
     group: Mapped[List["Group"]] = relationship(back_populates="user")
     books: Mapped[List["Book"]] = relationship(back_populates="user", cascade="all, delete-orphan")
     loans: Mapped[List["Loan"]] = relationship(back_populates="user", cascade="all, delete-orphan")

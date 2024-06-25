@@ -56,7 +56,7 @@ def get_all_users():
     stmt = db.select(User).filter(User.group_id == user_group_id)
     users = db.session.scalars(stmt).all()
     # Return all users in the database only showing their name and books in the result
-    return UserSchema(only=["name", "books"],many=True).dump(users), 200
+    return UserSchema(only=["id","name"],many=True).dump(users), 200
 
 
 # Update User (U)
@@ -93,4 +93,4 @@ def delete_user(id):
     # Delete the user from the database
     db.session.delete(user)
     db.session.commit()
-    return {"message": "User deleted"}, 204
+    return {"message": "User deleted"}, 200
