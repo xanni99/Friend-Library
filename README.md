@@ -41,9 +41,9 @@ Below are a few progress screenshots throughout the length of the project. The f
 
 ![Screenshot of Trello board halfway through project](docs/trello_2.png)
 
-**Trello Board at End of Project (30/06/24):**
+**Trello Board at End of Project (27/06/24):**
 
-![Screenshot of Trello board at the end of project]()
+![Screenshot of Trello board at the end of project](docs/trello_3.png)
 
 In addition to using Trello for overall project management, GitHub was utilised for version control and code management. With over 40 commits, GitHub provided an efficient way to store, track and manage changes to the code throughout the project.
 
