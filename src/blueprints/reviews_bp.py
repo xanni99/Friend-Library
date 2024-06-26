@@ -34,7 +34,7 @@ def add_review(book_id):
     # Add the review to the database
     db.session.add(review)
     db.session.commit()
-    return ReviewSchema(only=["rating", "review"]).dump(review), 201
+    return ReviewSchema(only=["rating", "review", "book.title"]).dump(review), 201
 
 
 # View All Book Reviews (R)
@@ -67,7 +67,7 @@ def book_reviews(book_id):
     reviews = db.session.scalars(stmt).all()
     if not reviews:
         return {"message": "No Reviews for this book"}, 200
-    return ReviewSchema(many=True, only=["rating", "review", "date", "user", "book"]).dump(reviews)
+    return ReviewSchema(many=True, only=["rating", "review", "date", "user"]).dump(reviews)
 
 
 # Update a Book Review (U)
@@ -108,4 +108,4 @@ def delete_review(id):
     db.session.delete(review)
     db.session.commit()
     # Return message that review has been deleted
-    return {"message": "Review deleted"}, 204
+    return {"message": "Review deleted"}, 200

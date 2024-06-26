@@ -6,6 +6,7 @@ from blueprints.users_bp import users_bp
 from blueprints.books_bp import books_bp
 from blueprints.reviews_bp import reviews_bp
 from blueprints.loans_bp import loans_bp
+from init import jwt
 
 
 app.register_blueprint(db_commands)
@@ -39,3 +40,7 @@ def bad_request(err):
 @app.errorhandler(404)
 def not_found(err):
     return {"error": f"Requested URL does not exist"}, 404
+
+@jwt.unauthorized_loader
+def missing_token(err):
+    return {"error": "You must be logged in to view this resource"}, 401

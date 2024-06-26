@@ -29,7 +29,7 @@ def add_book():
     # Add the book to the database
     db.session.add(book)
     db.session.commit()
-    return BookSchema().dump(book), 201
+    return BookSchema(exclude=["reviews"]).dump(book), 201
 
 
 # View all books (R)
@@ -113,4 +113,4 @@ def delete_book(id):
     db.session.delete(book)
     db.session.commit()
     # Return message that book has been deleted
-    return {"message": "Book deleted"}, 204
+    return {"message": "Book deleted"}, 200
