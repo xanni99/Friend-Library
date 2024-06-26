@@ -800,3 +800,17 @@ If no reviews exist within the database, a corresponding message will be shown i
 **Failure Example:**
 
 ![screenshot of example unsuccessful endpoint](docs/Endpoints/delete_a_review_err.png)
+
+## References
+
+Amazon Web Services (n.d.). What is PostgreSQL? [online] Amazon Web Services. Available at: https://aws.amazon.com/rds/postgresql/what-is-postgresql/.
+
+BrainerHub Solutions (2023). PostgreSQL: A Practical Guide—Features and Advantages. [online] www.linkedin.com. Available at: https://www.linkedin.com/pulse/postgresql-practical-guidefeatures-advantages-brainerhub-solutions/.
+
+Dhruv, S. (2019). Pros and Cons of using PostgreSQL for Application Development. [online] Aalpha. Available at: https://www.aalpha.net/blog/pros-and-cons-of-using-postgresql-for-application-development/.
+
+Perrin, A. (2016). Book Reading 2016. [online] Pew Research Center: Internet, Science & Tech. Available at: https://www.pewresearch.org/internet/2016/09/01/book-reading-2016/.
+
+PostgreSQL (2019). PostgreSQL: About. [online] Postgresql.org. Available at: https://www.postgresql.org/about/.
+
+The Salvation Army Australia (2023). Cost of Living Crisis Australia | The Salvation Army Australia. [online] www.salvationarmy.org.au. Available at: https://www.salvationarmy.org.au/red-shield-appeal/the-cost-of-living-crisis-in-australia/.
